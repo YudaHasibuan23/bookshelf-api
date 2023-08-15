@@ -1,0 +1,32 @@
+{
+  "name": "bukuhelf-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon ./main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cindy881/bukuhelf-api.git"
+  },
+  "author": "Cindy Viona",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cindy881/bukuhelf-api/issues"
+  },
+  "homepage": "https://github.com/cindy881/bukuhelf-api#readme",
+  "devDependencies": {
+    "@hapi/hapi": "^21.1.0",
+    "eslint": "^8.31.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.6.0",
+    "eslint-plugin-promise": "^6.1.1"
+  },
+  "dependencies": {
+    "nanoid": "^3.0.0",
+    "nodemon": "^2.0.20"
+  }
+}

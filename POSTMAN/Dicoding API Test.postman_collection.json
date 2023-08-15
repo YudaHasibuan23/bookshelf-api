@@ -1,0 +1,1314 @@
+{
+	"info": {
+		"_postman_id": "a0ab4765-a47b-4f0c-892b-881d583adb0d",
+		"name": "Dicoding API Test",
+		"description": "| example |  |\n| --- | --- |\n|  |  |",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "29147193"
+	},
+	"item": [
+		{
+			"name": "[Mandatory] Add buku dengan data komplit",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('status code should be 201', () => {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test('response header Content-Type should be application/json', () => {\r",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should be an object', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should have correct property and value', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseJson).to.haveOwnProperty('status');\r",
+							"    pm.expect(responseJson).to.haveOwnProperty('message');\r",
+							"    pm.expect(responseJson).to.haveOwnProperty('data');\r",
+							"\r",
+							"    pm.expect(responseJson.status).to.equals('success');\r",
+							"    pm.expect(responseJson.message).to.equals('Buku berhasil ditambahkan');\r",
+							"    pm.expect(responseJson.data).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body data should contain bukuId', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    const { data } = responseJson;\r",
+							"\r",
+							"    pm.expect(data).to.haveOwnProperty('bukuId');\r",
+							"    pm.expect(data.bukuId).to.not.equals('');\r",
+							"\r",
+							"    pm.environment.set('bukuId', data.bukuId);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{newName}}\",\r\n    \"year\": {{newYear}},\r\n    \"author\": \"{{newAuthor}}\",\r\n    \"summary\": \"{{newSummary}}\",\r\n    \"publisher\": \"{{newPublisher}}\",\r\n    \"pageCount\": {{newPageCount}},\r\n    \"readPage\": {{newReadPage}},\r\n    \"reading\": {{newReading}}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:{{port}}/bukus"
+			},
+			"response": []
+		},
+		{
+			"name": "[Mandatory] Add buku tanpa nama",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('status code should be 400', () => {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test('response header Content-Type should be application/json', () => {\r",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should be an object', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should have correct property and value', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseJson).to.haveOwnProperty('status');\r",
+							"    pm.expect(responseJson).to.haveOwnProperty('message');\r",
+							"    pm.expect(responseJson).to.not.haveOwnProperty('data');\r",
+							"\r",
+							"    pm.expect(responseJson.status).to.equals('fail');\r",
+							"    pm.expect(responseJson.message).to.equals('Gagal menambahkan buku. Mohon isi nama buku');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"year\": {{newYear}},\r\n    \"author\": \"{{newAuthor}}\",\r\n    \"summary\": \"{{newSummary}}\",\r\n    \"publisher\": \"{{newPublisher}}\",\r\n    \"pageCount\": {{newPageCount}},\r\n    \"readPage\": {{newReadPage}},\r\n    \"reading\": {{newReading}}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:{{port}}/bukus"
+			},
+			"response": []
+		},
+		{
+			"name": "[Mandatory] Add buku dengan Halaman Baca Lebih Banyak dari Jumlah Halaman",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('status code should be 400', () => {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test('response header Content-Type should be application/json', () => {\r",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should be an object', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should have correct property and value', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseJson).to.haveOwnProperty('status');\r",
+							"    pm.expect(responseJson).to.haveOwnProperty('message');\r",
+							"    pm.expect(responseJson).to.not.haveOwnProperty('data');\r",
+							"\r",
+							"    pm.expect(responseJson.status).to.equals('fail');\r",
+							"    pm.expect(responseJson.message).to.equals('Gagal menambahkan buku. readPage tidak boleh lebih besar dari pageCount');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{newName}}\",\r\n    \"year\": {{newYear}},\r\n    \"author\": \"{{newAuthor}}\",\r\n    \"summary\": \"{{newSummary}}\",\r\n    \"publisher\": \"{{newPublisher}}\",\r\n    \"pageCount\": 80,\r\n    \"readPage\": 90,\r\n    \"reading\": {{newReading}}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:{{port}}/bukus"
+			},
+			"response": []
+		},
+		{
+			"name": "[Mandatory] ambil semua buku",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('status code should be 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('response header Content-Type should be application/json', () => {\r",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should be an object', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body object should have correct property and value', () => {\r",
+							"    const responsJson = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responsJson).to.haveOwnProperty('status');\r",
+							"    pm.expect(responsJson).to.haveOwnProperty('data');\r",
+							"\r",
+							"    pm.expect(responsJson.status).to.equals('success');\r",
+							"    pm.expect(responsJson.data).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body data object should have a array bukus and contains one items', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    const { data } = responseJson;\r",
+							"\r",
+							"    pm.expect(data).to.haveOwnProperty('bukus');\r",
+							"    pm.expect(data.bukus).to.be.an('array');\r",
+							"    pm.expect(data.bukus).to.lengthOf(1);\r",
+							"});\r",
+							"\r",
+							"pm.test('the bukus should have contains only id, name, and publisher property', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    const { data: { bukus } } = responseJson;\r",
+							"\r",
+							"    bukus.forEach((buku) => {\r",
+							"        pm.expect(Object.keys(buku)).to.lengthOf(3);\r",
+							"        pm.expect(buku).to.haveOwnProperty('id');\r",
+							"        pm.expect(buku).to.haveOwnProperty('name');\r",
+							"        pm.expect(buku).to.haveOwnProperty('publisher');\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:{{port}}/bukus"
+			},
+			"response": []
+		},
+		{
+			"name": "[Mandatory] Dapatkan Detail Buku Dengan Id Yang Benar",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('response code should be 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('response header Content-Type should be application/json', () => {\r",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should an object', () =>  {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body object should contain correct property and value', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseJson).to.haveOwnProperty('status');\r",
+							"    pm.expect(responseJson).to.haveOwnProperty('data');\r",
+							"\r",
+							"    pm.expect(responseJson.status).to.equals('success');\r",
+							"    pm.expect(responseJson.data).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body data object should contain buku object', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    const { data } = responseJson;\r",
+							"\r",
+							"    pm.expect(data).to.haveOwnProperty('buku');\r",
+							"    pm.expect(data.buku).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('buku object should contain correct property and value', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    const { data: { buku } } = responseJson;\r",
+							"\r",
+							"    pm.expect(buku).to.haveOwnProperty('id');\r",
+							"    pm.expect(buku).to.haveOwnProperty('name');\r",
+							"    pm.expect(buku).to.haveOwnProperty('year');\r",
+							"    pm.expect(buku).to.haveOwnProperty('author');\r",
+							"    pm.expect(buku).to.haveOwnProperty('summary');\r",
+							"    pm.expect(buku).to.haveOwnProperty('publisher');\r",
+							"    pm.expect(buku).to.haveOwnProperty('pageCount');\r",
+							"    pm.expect(buku).to.haveOwnProperty('readPage');\r",
+							"    pm.expect(buku).to.haveOwnProperty('finished');\r",
+							"    pm.expect(buku).to.haveOwnProperty('reading');\r",
+							"    pm.expect(buku).to.haveOwnProperty('insertedAt');\r",
+							"    pm.expect(buku).to.haveOwnProperty('updatedAt');\r",
+							"\r",
+							"    pm.expect(buku.id).to.equals(pm.environment.get('bukuId'));\r",
+							"    pm.expect(buku.name).to.equals(pm.environment.get('newName'));\r",
+							"    pm.expect(buku.year).to.equals(Number(pm.environment.get('newYear')));\r",
+							"    pm.expect(buku.author).to.equals(pm.environment.get('newAuthor'));\r",
+							"    pm.expect(buku.summary).to.equals(pm.environment.get('newSummary'));\r",
+							"    pm.expect(buku.publisher).to.equals(pm.environment.get('newPublisher'));\r",
+							"    pm.expect(buku.pageCount).to.equals(Number(pm.environment.get('newPageCount')));\r",
+							"    pm.expect(buku.readPage).to.equals(Number(pm.environment.get('newReadPage')));\r",
+							"    pm.expect(buku.finished).to.equals(pm.environment.get('newPageCount') === pm.environment.get('newReadPage'));\r",
+							"    pm.expect(buku.reading).to.equals(pm.environment.get('newReading') == 'true');\r",
+							"    pm.expect(buku.insertedAt).to.not.equals('');\r",
+							"    pm.expect(buku.updatedAt).to.not.equals('');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:{{port}}/bukus/{{bukuId}}"
+			},
+			"response": []
+		},
+		{
+			"name": "[Mandatory] Dapatkan Detail buku Dengan Id Tidak Valid",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('response code should be 404', () => {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test('response header Content-Type should be application/json', () => {\r",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should an object', () =>  {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body object should contain correct property and value', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseJson).to.haveOwnProperty('status');\r",
+							"    pm.expect(responseJson).to.haveOwnProperty('message');\r",
+							"\r",
+							"    pm.expect(responseJson.status).to.equals('fail');\r",
+							"    pm.expect(responseJson.message).to.equals('Buku tidak ditemukan');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:{{port}}/bukus/xxxxx"
+			},
+			"response": []
+		},
+		{
+			"name": "[Mandatory] Perbarui buku Dengan Data Lengkap",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('status code should be 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('response header Content-Type should be application/json', () => {\r",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should be an object', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should have correct property and value', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseJson).to.haveOwnProperty('status');\r",
+							"    pm.expect(responseJson).to.haveOwnProperty('message');\r",
+							"\r",
+							"    pm.expect(responseJson.status).to.equals('success');\r",
+							"    pm.expect(responseJson.message).to.equals('Buku berhasil diperbarui');\r",
+							"});\r",
+							"\r",
+							"pm.test('when get detail bukus', () => {\r",
+							"    pm.sendRequest(`http://localhost:${pm.environment.get('port')}/bukus/${pm.environment.get('bukuId')}`, (error, response) => {\r",
+							"       const responseJson = response.json();\r",
+							"       const { data: { buku} } = responseJson;\r",
+							"\r",
+							"       pm.test('buku object should contain updated values', () => {\r",
+							"            pm.expect(buku).to.haveOwnProperty('id');\r",
+							"            pm.expect(buku).to.haveOwnProperty('name');\r",
+							"            pm.expect(buku).to.haveOwnProperty('year');\r",
+							"            pm.expect(buku).to.haveOwnProperty('author');\r",
+							"            pm.expect(buku).to.haveOwnProperty('summary');\r",
+							"            pm.expect(buku).to.haveOwnProperty('publisher');\r",
+							"            pm.expect(buku).to.haveOwnProperty('pageCount');\r",
+							"            pm.expect(buku).to.haveOwnProperty('readPage');\r",
+							"            pm.expect(buku).to.haveOwnProperty('finished');\r",
+							"            pm.expect(buku).to.haveOwnProperty('reading');\r",
+							"            pm.expect(buku).to.haveOwnProperty('insertedAt');\r",
+							"            pm.expect(buku).to.haveOwnProperty('updatedAt');\r",
+							"            \r",
+							"            pm.expect(buku.id).to.equals(pm.environment.get('bukuId'));\r",
+							"            pm.expect(buku.name).to.equals(pm.environment.get('updateName'));\r",
+							"            pm.expect(buku.year).to.equals(Number(pm.environment.get('updateYear')));\r",
+							"            pm.expect(buku.author).to.equals(pm.environment.get('updateAuthor'));\r",
+							"            pm.expect(buku.summary).to.equals(pm.environment.get('updateSummary'));\r",
+							"            pm.expect(buku.publisher).to.equals(pm.environment.get('updatePublisher'));\r",
+							"            pm.expect(buku.pageCount).to.equals(Number(pm.environment.get('updatePageCount')));\r",
+							"            pm.expect(buku.readPage).to.equals(Number(pm.environment.get('updateReadPage')));\r",
+							"            pm.expect(buku.finished).to.equals(pm.environment.get('updateReadPage') === pm.environment.get('updatePageCount'));\r",
+							"            pm.expect(buku.reading).to.equals(pm.environment.get('updateReading') == 'true');\r",
+							"            pm.expect(buku.insertedAt).to.not.equals('');\r",
+							"            pm.expect(buku.updatedAt).to.not.equals('');\r",
+							"       }); \r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{updateName}}\",\r\n    \"year\": {{updateYear}},\r\n    \"author\": \"{{updateAuthor}}\",\r\n    \"summary\": \"{{updateSummary}}\",\r\n    \"publisher\": \"{{updatePublisher}}\",\r\n    \"pageCount\": {{updatePageCount}},\r\n    \"readPage\": {{updateReadPage}},\r\n    \"reading\": {{updateReading}}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:{{port}}/bukus/{{bukuId}}"
+			},
+			"response": []
+		},
+		{
+			"name": "[Mandatory] Perbarui buku Tanpa Nama",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('status code should be 400', () => {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test('response header Content-Type should be application/json', () => {\r",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should be an object', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should have correct property and value', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseJson).to.haveOwnProperty('status');\r",
+							"    pm.expect(responseJson).to.haveOwnProperty('message');\r",
+							"    pm.expect(responseJson).to.not.haveOwnProperty('data')\r",
+							"\r",
+							"    pm.expect(responseJson.status).to.equals('fail');\r",
+							"    pm.expect(responseJson.message).to.equals('Gagal memperbarui buku. Mohon isi nama buku');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"year\": {{updateYear}},\r\n    \"author\": \"{{updateAuthor}}\",\r\n    \"summary\": \"{{updateSummary}}\",\r\n    \"publisher\": \"{{updatePublisher}}\",\r\n    \"pageCount\": {{updatePageCount}},\r\n    \"readPage\": {{updateReadPage}},\r\n    \"reading\": {{updateReading}}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:{{port}}/bukus/{{bukuId}}"
+			},
+			"response": []
+		},
+		{
+			"name": "[Mandatory] Perbarui buku Dengan Membaca Halaman Lebih Dari Hitungan Halaman",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('status code should be 400', () => {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test('response header Content-Type should be application/json', () => {\r",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should be an object', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should have correct property and value', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseJson).to.haveOwnProperty('status');\r",
+							"    pm.expect(responseJson).to.haveOwnProperty('message');\r",
+							"    pm.expect(responseJson).to.not.haveOwnProperty('data');\r",
+							"\r",
+							"    pm.expect(responseJson.status).to.equals('fail');\r",
+							"    pm.expect(responseJson.message).to.equals('Gagal memperbarui buku. readPage tidak boleh lebih besar dari pageCount');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{updateName}}\",\r\n    \"year\": {{updateYear}},\r\n    \"author\": \"{{updateAuthor}}\",\r\n    \"summary\": \"{{updateSummary}}\",\r\n    \"publisher\": \"{{updatePublisher}}\",\r\n    \"pageCount\": 80,\r\n    \"readPage\": 90,\r\n    \"reading\": {{updateReading}}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:{{port}}/bukus/{{bukuId}}"
+			},
+			"response": []
+		},
+		{
+			"name": "[Mandatory] Perbarui buku dengan ID Tidak Valid",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('status code should be 404', () => {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test('response header Content-Type should be application/json', () => {\r",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should be an object', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should have correct property and value', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseJson).to.haveOwnProperty('status');\r",
+							"    pm.expect(responseJson).to.haveOwnProperty('message');\r",
+							"\r",
+							"    pm.expect(responseJson.status).to.equals('fail');\r",
+							"    pm.expect(responseJson.message).to.equals('Gagal memperbarui buku. Id tidak ditemukan');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{updateName}}\",\r\n    \"year\": {{updateYear}},\r\n    \"author\": \"{{updateAuthor}}\",\r\n    \"summary\": \"{{updateSummary}}\",\r\n    \"publisher\": \"{{updatePublisher}}\",\r\n    \"pageCount\": {{updatePageCount}},\r\n    \"readPage\": {{updateReadPage}},\r\n    \"reading\": {{updateReading}}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:{{port}}/bukus/xxxxx"
+			},
+			"response": []
+		},
+		{
+			"name": "[Mandatory] Hapus buku karena id tidak ada",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('status code should be 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('response header Content-Type should be application/json', () => {\r",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should be an object', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should have correct property and value', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseJson).to.haveOwnProperty('status');\r",
+							"    pm.expect(responseJson).to.haveOwnProperty('message');\r",
+							"\r",
+							"    pm.expect(responseJson.status).to.equals('success');\r",
+							"    pm.expect(responseJson.message).to.equals('Buku berhasil dihapus');\r",
+							"});\r",
+							"\r",
+							"pm.test('when get detail bukus', () => {\r",
+							"    pm.sendRequest(`http://localhost:${pm.environment.get('port')}/bukus/${pm.environment.get('bukuId')}`, (error, response) => {\r",
+							"       pm.test('The buku should be not found', () => {\r",
+							"          pm.expect(response.code).to.equals(404);\r",
+							"       }); \r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "http://localhost:{{port}}/bukus/{{bukuId}}"
+			},
+			"response": []
+		},
+		{
+			"name": "[Mandatory] Hapus buku dengan Id Tidak Valid",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('status code should be 404', () => {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test('response header Content-Type should be application/json', () => {\r",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should be an object', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should have correct property and value', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseJson).to.haveOwnProperty('status');\r",
+							"    pm.expect(responseJson).to.haveOwnProperty('message');\r",
+							"\r",
+							"    pm.expect(responseJson.status).to.equals('fail');\r",
+							"    pm.expect(responseJson.message).to.equals('Buku gagal dihapus. Id tidak ditemukan');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "http://localhost:{{port}}/bukus/xxxxx"
+			},
+			"response": []
+		},
+		{
+			"name": "Menambahkan buku yang telah di baca",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{newName}}\",\r\n    \"year\": {{newYear}},\r\n    \"author\": \"{{newAuthor}}\",\r\n    \"summary\": \"{{newSummary}}\",\r\n    \"publisher\": \"{{newPublisher}}\",\r\n    \"pageCount\": 100,\r\n    \"readPage\": 100,\r\n    \"reading\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:{{port}}/bukus"
+			},
+			"response": []
+		},
+		{
+			"name": "Tambahkan Reading dan Unfinished buku dengan nama \"Dicoding\".",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Kelas Dicoding\",\r\n    \"year\": {{newYear}},\r\n    \"author\": \"{{newAuthor}}\",\r\n    \"summary\": \"{{newSummary}}\",\r\n    \"publisher\": \"{{newPublisher}}\",\r\n    \"pageCount\": 100,\r\n    \"readPage\": 99,\r\n    \"reading\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:{{port}}/bukus"
+			},
+			"response": []
+		},
+		{
+			"name": "Tambahkan buku yang Belum Dibaca dan Nama buku \"Dicoding\" yang Belum Selesai",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"dicoding Jobs\",\r\n    \"year\": {{newYear}},\r\n    \"author\": \"{{newAuthor}}\",\r\n    \"summary\": \"{{newSummary}}\",\r\n    \"publisher\": \"{{newPublisher}}\",\r\n    \"pageCount\": 100,\r\n    \"readPage\": 0,\r\n    \"reading\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:{{port}}/bukus"
+			},
+			"response": []
+		},
+		{
+			"name": "Tambahkan buku yang belum dibaca dan buku yang belum selesai",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{newName}}\",\r\n    \"year\": {{newYear}},\r\n    \"author\": \"{{newAuthor}}\",\r\n    \"summary\": \"{{newSummary}}\",\r\n    \"publisher\": \"{{newPublisher}}\",\r\n    \"pageCount\": 100,\r\n    \"readPage\": 0,\r\n    \"reading\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:{{port}}/bukus"
+			},
+			"response": []
+		},
+		{
+			"name": "[Optional] Get All Reading bukus",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('status code should be 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('response header Content-Type should be application/json', () => {\r",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should be an object', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body object should have correct property and value', () => {\r",
+							"    const responsJson = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responsJson).to.haveOwnProperty('status');\r",
+							"    pm.expect(responsJson).to.haveOwnProperty('data');\r",
+							"\r",
+							"    pm.expect(responsJson.status).to.equals('success');\r",
+							"    pm.expect(responsJson.data).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body data object should have a array bukus and contains 2 items', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    const { data } = responseJson;\r",
+							"\r",
+							"    pm.expect(data).to.haveOwnProperty('bukus');\r",
+							"    pm.expect(data.bukus).to.be.an('array');\r",
+							"    pm.expect(data.bukus).to.lengthOf(2);\r",
+							"});\r",
+							"\r",
+							"pm.test('the bukus should have contains only name and publisher property', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    const { data: { bukus } } = responseJson;\r",
+							"\r",
+							"    bukus.forEach((buku) => {\r",
+							"        pm.expect(Object.keys(buku)).to.lengthOf(3);\r",
+							"        pm.expect(buku).to.haveOwnProperty('id');\r",
+							"        pm.expect(buku).to.haveOwnProperty('name');\r",
+							"        pm.expect(buku).to.haveOwnProperty('publisher');\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:{{port}}/bukus?reading=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "{{port}}",
+					"path": [
+						"bukus"
+					],
+					"query": [
+						{
+							"key": "reading",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[Optional] Get All Unreading bukus",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('status code should be 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('response header Content-Type should be application/json', () => {\r",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should be an object', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body object should have correct property and value', () => {\r",
+							"    const responsJson = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responsJson).to.haveOwnProperty('status');\r",
+							"    pm.expect(responsJson).to.haveOwnProperty('data');\r",
+							"\r",
+							"    pm.expect(responsJson.status).to.equals('success');\r",
+							"    pm.expect(responsJson.data).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body data object should have a array bukus and contains at 2 items', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    const { data } = responseJson;\r",
+							"\r",
+							"    pm.expect(data).to.haveOwnProperty('bukus');\r",
+							"    pm.expect(data.bukus).to.be.an('array');\r",
+							"    pm.expect(data.bukus).to.lengthOf(2);\r",
+							"});\r",
+							"\r",
+							"pm.test('the bukus should have contains only name and publisher property', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    const { data: { bukus } } = responseJson;\r",
+							"\r",
+							"    bukus.forEach((buku) => {\r",
+							"        pm.expect(Object.keys(buku)).to.lengthOf(3);\r",
+							"        pm.expect(buku).to.haveOwnProperty('id');\r",
+							"        pm.expect(buku).to.haveOwnProperty('name');\r",
+							"        pm.expect(buku).to.haveOwnProperty('publisher');\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:{{port}}/bukus?reading=0",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "{{port}}",
+					"path": [
+						"bukus"
+					],
+					"query": [
+						{
+							"key": "reading",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[Optional] Get All Finished bukus",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('status code should be 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('response header Content-Type should be application/json', () => {\r",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should be an object', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body object should have correct property and value', () => {\r",
+							"    const responsJson = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responsJson).to.haveOwnProperty('status');\r",
+							"    pm.expect(responsJson).to.haveOwnProperty('data');\r",
+							"\r",
+							"    pm.expect(responsJson.status).to.equals('success');\r",
+							"    pm.expect(responsJson.data).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body data object should have a array bukus and contains 1 items', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    const { data } = responseJson;\r",
+							"\r",
+							"    pm.expect(data).to.haveOwnProperty('bukus');\r",
+							"    pm.expect(data.bukus).to.be.an('array');\r",
+							"    pm.expect(data.bukus).to.lengthOf(1);\r",
+							"});\r",
+							"\r",
+							"pm.test('the bukus should have contains only name and publisher property', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    const { data: { bukus } } = responseJson;\r",
+							"\r",
+							"    bukus.forEach((buku) => {\r",
+							"        pm.expect(Object.keys(buku)).to.lengthOf(3);\r",
+							"        pm.expect(buku).to.haveOwnProperty('id');\r",
+							"        pm.expect(buku).to.haveOwnProperty('name');\r",
+							"        pm.expect(buku).to.haveOwnProperty('publisher');\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:{{port}}/bukus?finished=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "{{port}}",
+					"path": [
+						"bukus"
+					],
+					"query": [
+						{
+							"key": "finished",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[Optional] Get All Unfinished bukus",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('status code should be 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('response header Content-Type should be application/json', () => {\r",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should be an object', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body object should have correct property and value', () => {\r",
+							"    const responsJson = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responsJson).to.haveOwnProperty('status');\r",
+							"    pm.expect(responsJson).to.haveOwnProperty('data');\r",
+							"\r",
+							"    pm.expect(responsJson.status).to.equals('success');\r",
+							"    pm.expect(responsJson.data).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body data object should have a array bukus and contains 3 items', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    const { data } = responseJson;\r",
+							"\r",
+							"    pm.expect(data).to.haveOwnProperty('bukus');\r",
+							"    pm.expect(data.bukus).to.be.an('array');\r",
+							"    pm.expect(data.bukus).to.lengthOf(3);\r",
+							"});\r",
+							"\r",
+							"pm.test('the bukus should have contains only name and publisher property', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    const { data: { bukus } } = responseJson;\r",
+							"\r",
+							"    bukus.forEach((buku) => {\r",
+							"        pm.expect(Object.keys(buku)).to.lengthOf(3);\r",
+							"        pm.expect(buku).to.haveOwnProperty('id');\r",
+							"        pm.expect(buku).to.haveOwnProperty('name');\r",
+							"        pm.expect(buku).to.haveOwnProperty('publisher');\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:{{port}}/bukus?finished=0",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "{{port}}",
+					"path": [
+						"bukus"
+					],
+					"query": [
+						{
+							"key": "finished",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[Optional] Get All bukus Contains \"Dicoding\" Name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('status code should be 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('response header Content-Type should be application/json', () => {\r",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should be an object', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body object should have correct property and value', () => {\r",
+							"    const responsJson = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responsJson).to.haveOwnProperty('status');\r",
+							"    pm.expect(responsJson).to.haveOwnProperty('data');\r",
+							"\r",
+							"    pm.expect(responsJson.status).to.equals('success');\r",
+							"    pm.expect(responsJson.data).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body data object should have a array bukus and contains 2 items', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    const { data } = responseJson;\r",
+							"\r",
+							"    pm.expect(data).to.haveOwnProperty('bukus');\r",
+							"    pm.expect(data.bukus).to.be.an('array');\r",
+							"    pm.expect(data.bukus).to.lengthOf(2);\r",
+							"});\r",
+							"\r",
+							"pm.test('the bukus should have contains only name and publisher property', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    const { data: { bukus } } = responseJson;\r",
+							"\r",
+							"    bukus.forEach((buku) => {\r",
+							"        pm.expect(Object.keys(buku)).to.lengthOf(3);\r",
+							"        pm.expect(buku).to.haveOwnProperty('id');\r",
+							"        pm.expect(buku).to.haveOwnProperty('name');\r",
+							"        pm.expect(buku).to.haveOwnProperty('publisher');\r",
+							"    });\r",
+							"});\r",
+							"\r",
+							"const deleteAllNotes = () => {\r",
+							"    pm.sendRequest(`http://localhost:${pm.environment.get('port')}/bukus`, (error, response) => {\r",
+							"        const responseJson = response.json();\r",
+							"        const { data: { bukus } } = responseJson;\r",
+							"        bukus.forEach(({ id }) => {\r",
+							"            const deleteRequest = {\r",
+							"                url: `http://localhost:${pm.environment.get('port')}/bukus/${id}`,\r",
+							"                method: 'DELETE',\r",
+							"            };\r",
+							"            pm.sendRequest(deleteRequest, (error, response) => {\r",
+							"                if(error) {\r",
+							"                    console.log(`Failed to delete buku ${id}`)\r",
+							"                    return;\r",
+							"                }\r",
+							"                console.log(`buku ${id} deleted`);\r",
+							"            });\r",
+							"        });\r",
+							"    });\r",
+							"};\r",
+							"\r",
+							"deleteAllNotes();"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:{{port}}/bukus?name=Dicoding",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "{{port}}",
+					"path": [
+						"bukus"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Dicoding"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[Mandatory] Tambah buku Dengan Data Lengkap",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('status code should be 201', () => {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test('response header Content-Type should be application/json', () => {\r",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should be an object', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should have correct property and value', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseJson).to.haveOwnProperty('status');\r",
+							"    pm.expect(responseJson).to.haveOwnProperty('message');\r",
+							"    pm.expect(responseJson).to.haveOwnProperty('data');\r",
+							"\r",
+							"    pm.expect(responseJson.status).to.equals('success');\r",
+							"    pm.expect(responseJson.message).to.equals('Buku berhasil ditambahkan');\r",
+							"    pm.expect(responseJson.data).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body data should contain bukuId', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    const { data } = responseJson;\r",
+							"\r",
+							"    pm.expect(data).to.haveOwnProperty('bukuId');\r",
+							"    pm.expect(data.bukuId).to.not.equals('');\r",
+							"\r",
+							"    pm.environment.set('bukuId', data.bukuId);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{newName}}\",\r\n    \"year\": {{newYear}},\r\n    \"author\": \"{{newAuthor}}\",\r\n    \"summary\": \"{{newSummary}}\",\r\n    \"publisher\": \"{{newPublisher}}\",\r\n    \"pageCount\": {{newPageCount}},\r\n    \"readPage\": {{newReadPage}},\r\n    \"reading\": {{newReading}}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:{{port}}/bukus"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"",
+					""
+				]
+			}
+		}
+	]
+}

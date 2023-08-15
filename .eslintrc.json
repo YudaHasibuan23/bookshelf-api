@@ -1,0 +1,25 @@
+{
+    // Lingkungan di mana kode ini akan dijalankan (Browser, CommonJS, ES2021, Node.js)
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es2021": true,
+        "node": true
+    },
+
+    // Menggunakan aturan dari konfigurasi "standard" (sebuah konfigurasi linting populer)
+    "extends": "standard",
+
+    // Konfigurasi khusus untuk kasus tertentu dapat ditambahkan di sini
+    "overrides": [
+    ],
+
+    // Opsi parser untuk menentukan versi ECMAScript yang digunakan
+    "parserOptions": {
+        "ecmaVersion": "latest"
+    },
+
+    // Aturan-aturan linting khusus dapat ditambahkan di sini
+    "rules": {
+    }
+}
