@@ -1,8 +1,8 @@
 <div id="top"></div>
 
-# 📌bookshelf-api📚
+# 📌buku-APi
 
-Bookshelf API is a project to store book information in the form of data from client to server
+buku API is a project to store book information in the form of data from client to server
 
 ## 🎯Criteria
 
